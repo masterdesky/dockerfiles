@@ -15,8 +15,8 @@
 # Author: masterdesky @ ELTE (2023)
 #
 # ---------------------------------------------------------------------
-# Base Image containing CUDA 11.8 for Ubuntu 22.04
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
+# Base Image containing CUDA 11.3 for Ubuntu 20.04
+FROM nvidia/cuda:11.3.1-cudnn8-devel-ubuntu20.04
 
 # Maintainer Information
 LABEL maintainer="masterdesky@ELTE"
@@ -25,10 +25,15 @@ LABEL maintainer="masterdesky@ELTE"
 # advanced scripting
 SHELL ["/bin/bash", "-c"]
 
-# Install Git and wget
-RUN apt update && apt upgrade -y && DEBIAN_FRONTEND=noninteractive \
+# Avoid interactive prompts popping up during package install
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install necessary Linux packages
+RUN apt update && apt upgrade -y \
     && apt install -y \
-      build-essential git curl wget \
+      build-essential git curl wget nano \
+      # Needed for libGL.so.1 and libgthread-2.0.so.0
+      libgl1 libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install git-lfs
