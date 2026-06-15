@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     sudo build-essential git make nano xterm \
     libc6-dbg gdb valgrind \
     openmpi-bin libopenmpi-dev \
-    libhdf5-dev \
+    libhdf5-dev=1.10.6 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 RUN addgroup --gid $GID steps && \
